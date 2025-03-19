@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useBackground } from './BackgroundProvider';
+import { useBackground, type BackgroundType } from './BackgroundProvider';
 
 export default function BackgroundSelector() {
   const { background, setBackground } = useBackground();
@@ -15,17 +15,15 @@ export default function BackgroundSelector() {
   if (!mounted) return null;
 
   const backgroundOptions = [
-    { id: 'none', name: 'No Background' },
-    { id: 'space', name: 'Space' },
-    { id: 'matrix', name: 'Matrix Grid' },
-    { id: 'synthwave', name: 'Synthwave' },
-  ];
+    { id: 'none' as const, name: 'No Background' },
+    { id: 'space' as const, name: 'Space' },
+    { id: 'matrix' as const, name: 'Matrix Grid' },
+    { id: 'synthwave' as const, name: 'Synthwave' },
+  ] as const;
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
-  const selectBackground = (
-    type: 'none' | 'space' | 'matrix' | 'synthwave'
-  ) => {
+  const selectBackground = (type: BackgroundType) => {
     setBackground(type);
     setIsOpen(false);
   };
@@ -41,7 +39,7 @@ export default function BackgroundSelector() {
     <div className="relative">
       <button
         onClick={toggleDropdown}
-        className="bg-primary text-primary-foreground py-2 px-4 rounded-md flex items-center justify-between min-w-40"
+        className="bg-primary font-medium text-primary-foreground py-2 px-4 rounded-md flex items-center justify-between min-w-40"
       >
         <span>{getCurrentBackgroundName()}</span>
         <svg
@@ -63,15 +61,18 @@ export default function BackgroundSelector() {
       </button>
 
       {isOpen && (
-        <div className="absolute mt-1 w-full rounded-md bg-primary-foreground text-primary shadow-lg z-20">
-          <ul className="py-1">
+        <div className="absolute mt-1 w-full font-medium rounded-md bg-slate-100 dark:bg-slate-800 shadow-lg z-20 border border-slate-300 dark:border-slate-700">
+          <ul>
             {backgroundOptions.map((option) => (
               <li key={option.id}>
                 <button
-                  onClick={() => selectBackground(option.id as any)}
-                  className={`block w-full text-left px-4 py-2 hover:bg-primary hover:text-primary-foreground ${
-                    background === option.id ? 'bg-primary bg-opacity-20' : ''
-                  }`}
+                  onClick={() => selectBackground(option.id)}
+                  className={`block w-full text-left px-4 py-2 transition-colors duration-200 
+                    ${
+                      background === option.id
+                        ? 'bg-primary text-primary-foreground'
+                        : 'text-slate-800 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700'
+                    }`}
                 >
                   {option.name}
                 </button>

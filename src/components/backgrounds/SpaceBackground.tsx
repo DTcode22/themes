@@ -9,14 +9,17 @@ export default function SpaceBackground() {
   useEffect(() => {
     if (!containerRef.current) return;
 
+    // Store ref value
+    const container = containerRef.current;
+
     let scene: THREE.Scene,
       camera: THREE.PerspectiveCamera,
       renderer: THREE.WebGLRenderer,
       particleSystem: THREE.Points;
 
-    let dispersionCenter = new THREE.Vector3(0, 0, 0);
-    let dispersionStrength = 0.3;
-    let clock = new THREE.Clock();
+    const dispersionCenter = new THREE.Vector3(0, 0, 0);
+    const dispersionStrength = 0.3;
+    const clock = new THREE.Clock();
 
     // Initialize the scene
     const init = () => {
@@ -273,15 +276,15 @@ export default function SpaceBackground() {
 
     // Add event listeners
     window.addEventListener('resize', handleResize);
-    containerRef.current.addEventListener('mousemove', handleMouseMove);
+    container.addEventListener('mousemove', handleMouseMove);
 
-    // Cleanup function
+    // Cleanup function uses stored reference
     return () => {
       window.removeEventListener('resize', handleResize);
-      if (containerRef.current) {
-        containerRef.current.removeEventListener('mousemove', handleMouseMove);
+      if (container) {
+        container.removeEventListener('mousemove', handleMouseMove);
         if (renderer) {
-          containerRef.current.removeChild(renderer.domElement);
+          container.removeChild(renderer.domElement);
         }
       }
       if (scene && particleSystem) {
