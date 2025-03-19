@@ -3,7 +3,7 @@ import BackgroundSelector from '../components/backgrounds/BackgroundSelector';
 
 export default function Home() {
   return (
-    <div className="w-full h-full container p-4 mx-auto">
+    <div className="w-full h-full container mx-auto">
       <div className="py-20 flex flex-col items-center justify-center">
         <h1 className="text-primary text-5xl text-center font-bold mb-8">
           Multi Themes & Backgrounds

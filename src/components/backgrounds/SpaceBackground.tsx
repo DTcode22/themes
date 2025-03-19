@@ -39,6 +39,10 @@ export default function SpaceBackground() {
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       renderer.setSize(containerWidth, containerHeight);
       containerRef.current!.appendChild(renderer.domElement);
+      renderer.domElement.style.zIndex = '0';
+      renderer.domElement.style.position = 'absolute';
+      renderer.domElement.style.top = '0';
+      renderer.domElement.style.left = '0';
 
       // Create particles
       createParticles();
